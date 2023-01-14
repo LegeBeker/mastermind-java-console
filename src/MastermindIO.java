@@ -52,8 +52,8 @@ public class MastermindIO {
                 continue;
             }
 
-            if (!guess.matches("[A-D]+")) {
-                String nonLetters = guess.replaceAll("[A-D]", "");
+            if (!guess.matches("[A-F]+")) {
+                String nonLetters = guess.replaceAll("[A-F]", "");
 
                 if (nonLetters.length() > 1) {
                     System.out.println("\u001B[0mfout => '" + nonLetters + "' zijn geen geldige letters!");
@@ -64,6 +64,37 @@ public class MastermindIO {
             }
 
             return guess;
+        }
+    }
+
+    public int getPlayerBlackPins() {
+        while (true) {
+            String blackPins = System.console().readLine("\u001B[0mGeef het aantal zwarte pins : \u001B[32m");
+
+            if (!blackPins.matches("[0-4]")) {
+                System.out.println("\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 0 en 4");
+                continue;
+            }
+
+            return Integer.parseInt(blackPins);
+        }
+    }
+
+    public int getPlayerWhitePins(int blackPins) {
+        while (true) {
+            String whitePins = System.console().readLine("\u001B[0mGeef het aantal witte pins : \u001B[32m");
+
+            if (!whitePins.matches("[0-4]")) {
+                System.out.println("\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 0 en 4");
+                continue;
+            }
+
+            if ((Integer.parseInt(whitePins) + blackPins) > 4) {
+                System.out.println("\u001B[0mfout => som van pins moet tussen 0 en 4 zijn!");
+                continue;
+            }
+
+            return Integer.parseInt(whitePins);
         }
     }
 
