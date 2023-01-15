@@ -1,6 +1,8 @@
+import java.util.HashMap;
+import java.util.List;
 
 public class MastermindIO {
-    public String getHumanPlayerName() {
+    public static String getHumanPlayerName() {
         while (true) {
             String playerName = System.console().readLine("Wat is je naam? : \u001B[32m");
 
@@ -27,7 +29,7 @@ public class MastermindIO {
         }
     }
 
-    public String getHeadOrTale() {
+    public static String getHeadOrTale() {
         while (true) {
             String preference = System.console().readLine("Wil je kop of munt? : \u001B[32m");
 
@@ -41,7 +43,7 @@ public class MastermindIO {
         }
     }
 
-    public String getPlayerGuess() {
+    public static String getPlayerGuess() {
         while (true) {
             String guess = System.console().readLine("raad de code : \u001B[32m");
 
@@ -67,7 +69,7 @@ public class MastermindIO {
         }
     }
 
-    public int getPlayerBlackPins() {
+    public static int getPlayerBlackPins() {
         while (true) {
             String blackPins = System.console().readLine("\u001B[0mGeef het aantal zwarte pins : \u001B[32m");
 
@@ -80,7 +82,7 @@ public class MastermindIO {
         }
     }
 
-    public int getPlayerWhitePins(int blackPins) {
+    public static int getPlayerWhitePins(int blackPins) {
         while (true) {
             String whitePins = System.console().readLine("\u001B[0mGeef het aantal witte pins : \u001B[32m");
 
@@ -98,7 +100,7 @@ public class MastermindIO {
         }
     }
 
-    public void getEnterToContinue() {
+    public static void getEnterToContinue() {
         while (true) {
             String enter = System.console().readLine("\u001B[0m[ENTER] om door te gaan.");
             if (enter.equals("")) {
@@ -107,5 +109,23 @@ public class MastermindIO {
                 continue;
             }
         }
+    }
+
+    public static void printGameBoard(HashMap<Integer, HashMap<String, List<Integer>>> guesses) {
+
+        System.out.println("\u001B[0m------------------------------\r\n"
+                + "|    Mastermind speelbord    |\r\n"
+                + "------------------------------");
+
+        for (int key : guesses.keySet()) {
+            for (String guess : guesses.get(key).keySet()) {
+                List<Integer> values = guesses.get(key).get(guess);
+                System.out.println("  " + key + ": " + guess
+                        + "  zwart: " + values.get(0)
+                        + "  wit: " + values.get(1));
+            }
+        }
+
+        System.out.println("------------------------------");
     }
 }

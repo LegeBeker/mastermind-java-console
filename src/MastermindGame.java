@@ -17,32 +17,31 @@ public class MastermindGame {
                 + "| Bij een gelijkspel spelen we nog een ronde.           |\r\n"
                 + "=========================================================");
 
-        MastermindIO io = new MastermindIO();
         GameHuman player = new GameHuman();
         GameComputer computer = new GameComputer();
 
-        player.name = io.getHumanPlayerName();
+        player.name = MastermindIO.getHumanPlayerName();
 
         System.out.println("Eerst doen we een TOSS om wie mag beginnen.");
 
-        player.preference = io.getHeadOrTale();
+        player.preference = MastermindIO.getHeadOrTale();
 
         tossResult = doToss();
 
         if (tossResult.equals(player.preference)) {
             System.out.println(player.name + " jij mag beginnen!");
-            player.play(io);
-            computer.play(io);
+            player.play();
+            computer.play();
         } else {
             System.out.println("De computer begint!");
-            computer.play(io);
-            player.play(io);
+            computer.play();
+            player.play();
         }
 
-        result(player, computer, io);
+        result(player, computer);
     }
 
-    public void result(GameHuman player, GameComputer computer, MastermindIO io) {
+    public void result(GameHuman player, GameComputer computer) {
 
         System.out.println("\u001B[0mEindscore: " + player.name + ": " + ((player.turn > 9) ? "[NIET]" : player.turn)
                 + " - COMPUTER: " + ((computer.turn > 9) ? "[NIET]" : computer.turn));
@@ -58,14 +57,14 @@ public class MastermindGame {
 
             if (tossResult.equals(player.preference)) {
                 System.out.println(player.name + " jij mag beginnen!");
-                player.play(io);
-                computer.play(io);
+                player.play();
+                computer.play();
             } else {
                 System.out.println("De computer begint!");
-                computer.play(io);
-                player.play(io);
+                computer.play();
+                player.play();
             }
-            result(player, computer, io);
+            result(player, computer);
         }
     }
 
@@ -92,5 +91,25 @@ public class MastermindGame {
             System.out.println("\u001B[0mhet is geworden: munt (" + tale + " keer gegooid)");
             return "munt";
         }
+    }
+
+    public static int countMatchingChars(String s1, String s2) {
+        int count = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) == s2.charAt(i)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static int countCharsWrongPosition(String s1, String s2) {
+        int count = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) != s2.charAt(i) && s2.contains(String.valueOf(s1.charAt(i)))) {
+                count++;
+            }
+        }
+        return count;
     }
 }

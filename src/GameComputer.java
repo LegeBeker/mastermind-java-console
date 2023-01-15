@@ -7,10 +7,10 @@ import java.util.ArrayList;
 public class GameComputer {
 
     private HashMap<Integer, HashMap<String, List<Integer>>> guesses;
-    private List<String> possibleCodes = new ArrayList<>();;
+    private List<String> possibleCodes = new ArrayList<>();
     public int turn;
 
-    public void play(MastermindIO io) {
+    public void play() {
         System.out.println("\u001B[0m---------------------------------------------------------\r\n"
                 + "| de COMPUTER gaat nu raden.                            |\r\n"
                 + "| Bedenk een code die uit 4 letters bestaat.            |\r\n"
@@ -19,7 +19,7 @@ public class GameComputer {
                 + "| zwarte pins = letters op juiste positie.              |\r\n"
                 + "| witte pins = letters op verkeerde positie.            |\r\n"
                 + "---------------------------------------------------------");
-        io.getEnterToContinue();
+        MastermindIO.getEnterToContinue();
 
         turn = 0;
         guesses = new HashMap<>();
@@ -49,26 +49,13 @@ public class GameComputer {
                 break;
             }
 
-            System.out.println("\u001B[0m------------------------------\r\n"
-                    + "|    Mastermind speelbord    |\r\n"
-                    + "------------------------------");
-
-            for (int key : guesses.keySet()) {
-                for (String guess : guesses.get(key).keySet()) {
-                    List<Integer> values = guesses.get(key).get(guess);
-                    System.out.println("  " + key + ": " + guess
-                            + "  zwart: " + values.get(0)
-                            + "  wit: " + values.get(1));
-                }
-            }
-
-            System.out.println("------------------------------");
+            MastermindIO.printGameBoard(guesses);
 
             String guess = guessCode();
 
             System.out.println("    " + turn + ": " + guess);
             System.out.println("------------------------------");
-            int black = io.getPlayerBlackPins();
+            int black = MastermindIO.getPlayerBlackPins();
 
             if (black == 4) {
                 System.out.println("\u001B[0mgeraden");
@@ -76,7 +63,7 @@ public class GameComputer {
                 break;
             }
 
-            int white = io.getPlayerWhitePins(black);
+            int white = MastermindIO.getPlayerWhitePins(black);
 
             removeCodes(guess, black, white);
 
@@ -99,23 +86,8 @@ public class GameComputer {
         for (int i = 0; i < possibleCodes.size(); i++) {
             String code = possibleCodes.get(i);
 
-            if (code.equals("BACE")) {
-                System.out.println("BACE");
-            }
-
-            int blackPins = 0;
-            int whitePins = 0;
-
-            for (int j = 0; j < 4; j++) {
-                if (code.charAt(j) == guess.charAt(j)) {
-                    code = code.substring(0, j) + " " + code.substring(j + 1);
-                    blackPins++;
-                } else if (code.contains("" + guess.charAt(j))) {
-                    code = code.substring(0, code.indexOf(guess.charAt(j))) + " "
-                            + code.substring(code.indexOf(guess.charAt(j)) + 1);
-                    whitePins++;
-                }
-            }
+            int blackPins = MastermindGame.countMatchingChars(code, guess);
+            int whitePins = MastermindGame.countCharsWrongPosition(code, guess);
 
             if (blackPins != black || whitePins != white) {
                 possibleCodes.remove(i);

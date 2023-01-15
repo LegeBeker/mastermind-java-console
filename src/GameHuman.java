@@ -11,7 +11,7 @@ public class GameHuman {
     private String code;
     static boolean CHEATMODE = true;
 
-    public void play(MastermindIO io) {
+    public void play() {
         System.out.println("\u001B[0m---------------------------------------------------------\r\n"
                 + "| " + name + " jij gaat nu raden."
                 + String.format("%0" + (35 - name.length()) + "d", 0).replace("0", " ")
@@ -21,7 +21,7 @@ public class GameHuman {
                 + "| Bij 9 keer een foute code ben je af.                  |\r\n"
                 + "| Succes!                                               |\r\n"
                 + "---------------------------------------------------------");
-        io.getEnterToContinue();
+        MastermindIO.getEnterToContinue();
 
         turn = 0;
         guesses = new HashMap<>();
@@ -42,24 +42,12 @@ public class GameHuman {
                 System.out.println("\u001B[0m>>> CHEAT [" + code + "] <<<");
             }
 
-            System.out.println("\u001B[0m------------------------------\r\n"
-                    + "|    Mastermind speelbord    |\r\n"
-                    + "------------------------------");
+            MastermindIO.printGameBoard(guesses);
 
-            for (int key : guesses.keySet()) {
-                for (String guess : guesses.get(key).keySet()) {
-                    List<Integer> values = guesses.get(key).get(guess);
-                    System.out.println("  " + key + ": " + guess
-                            + "  zwart: " + values.get(0)
-                            + "  wit: " + values.get(1));
-                }
-            }
+            String guess = MastermindIO.getPlayerGuess();
 
-            System.out.println("------------------------------");
-            String guess = io.getPlayerGuess();
-
-            int black = countMatchingChars(code, guess);
-            int white = countCharsWrongPosition(code, guess);
+            int black = MastermindGame.countMatchingChars(code, guess);
+            int white = MastermindGame.countCharsWrongPosition(code, guess);
 
             List<Integer> values = Arrays.asList(black, white);
             HashMap<String, List<Integer>> round = new HashMap<>();
@@ -72,25 +60,5 @@ public class GameHuman {
                 break;
             }
         }
-    }
-
-    public static int countMatchingChars(String s1, String s2) {
-        int count = 0;
-        for (int i = 0; i < s1.length(); i++) {
-            if (s1.charAt(i) == s2.charAt(i)) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public static int countCharsWrongPosition(String s1, String s2) {
-        int count = 0;
-        for (int i = 0; i < s1.length(); i++) {
-            if (s1.charAt(i) != s2.charAt(i) && s2.contains(String.valueOf(s1.charAt(i)))) {
-                count++;
-            }
-        }
-        return count;
     }
 }
