@@ -63,7 +63,7 @@ public class MastermindGame {
     private static String doToss() {
         int head = 0;
         int tale = 0;
-        String toss = "";
+        String toss = new String();
         for (int i = 0; i < 5; i++) {
             if (Math.random() < 0.5) {
                 head++;
