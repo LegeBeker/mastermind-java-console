@@ -6,10 +6,22 @@ public class GameHuman {
 
     public String name;
     public String preference;
-    private HashMap<Integer, HashMap<String, List<Integer>>> guesses;
-    public int turn;
     private String code;
     static boolean CHEATMODE = true;
+
+    private HashMap<Integer, HashMap<String, List<Integer>>> guesses;
+    public int turn;
+
+    private void setup() {
+        guesses = new HashMap<>();
+        turn = 0;
+
+        code = new String();
+
+        for (int i = 0; i < 4; i++) {
+            code += (char) (65 + (int) (Math.random() * 6));
+        }
+    }
 
     public void play() {
         System.out.println("\u001B[0m---------------------------------------------------------\r\n"
@@ -23,16 +35,11 @@ public class GameHuman {
                 + "---------------------------------------------------------");
         MastermindIO.getEnterToContinue();
 
-        turn = 0;
-        guesses = new HashMap<>();
-        code = new String();
-
-        for (int i = 0; i < 4; i++) {
-            code += (char) (65 + (int) (Math.random() * 6));
-        }
+        setup();
 
         while (true) {
             turn++;
+
             if (turn > 9) {
                 System.out.println("\u001B[0mJe hebt 9 keer een foute code geraden. Je bent af!");
                 break;
@@ -46,6 +53,12 @@ public class GameHuman {
 
             String guess = MastermindIO.getPlayerGuess();
 
+            if (guess.equals(code)) {
+                System.out.println("\u001B[0m" + name + " je hebt de code geraden!");
+                System.out.println("jouw score is: " + turn);
+                break;
+            }
+
             int black = MastermindGame.countMatchingChars(code, guess);
             int white = MastermindGame.countCharsWrongPosition(code, guess);
 
@@ -53,12 +66,6 @@ public class GameHuman {
             HashMap<String, List<Integer>> round = new HashMap<>();
             round.put(guess, values);
             guesses.put(turn, round);
-
-            if (guess.equals(code)) {
-                System.out.println("\u001B[0m" + name + " je hebt de code geraden!");
-                System.out.println("jouw score is: " + turn);
-                break;
-            }
         }
     }
 }

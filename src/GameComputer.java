@@ -6,9 +6,27 @@ import java.util.ArrayList;
 
 public class GameComputer {
 
+    private List<String> possibleCodes;
+
     private HashMap<Integer, HashMap<String, List<Integer>>> guesses;
-    private List<String> possibleCodes = new ArrayList<>();
     public int turn;
+
+    private void setup() {
+        guesses = new HashMap<>();
+        turn = 0;
+
+        possibleCodes = new ArrayList<>();
+
+        for (char a = 'A'; a <= 'F'; a++) {
+            for (char b = 'A'; b <= 'F'; b++) {
+                for (char c = 'A'; c <= 'F'; c++) {
+                    for (char d = 'A'; d <= 'F'; d++) {
+                        possibleCodes.add("" + a + b + c + d);
+                    }
+                }
+            }
+        }
+    }
 
     public void play() {
         System.out.println("\u001B[0m---------------------------------------------------------\r\n"
@@ -21,21 +39,9 @@ public class GameComputer {
                 + "---------------------------------------------------------");
         MastermindIO.getEnterToContinue();
 
-        turn = 0;
-        guesses = new HashMap<>();
-
-        for (char a = 'A'; a <= 'F'; a++) {
-            for (char b = 'A'; b <= 'F'; b++) {
-                for (char c = 'A'; c <= 'F'; c++) {
-                    for (char d = 'A'; d <= 'F'; d++) {
-                        possibleCodes.add("" + a + b + c + d);
-                    }
-                }
-            }
-        }
+        setup();
 
         while (true) {
-            System.out.println(possibleCodes.size());
             turn++;
 
             if (possibleCodes.size() == 0) {
@@ -74,7 +80,7 @@ public class GameComputer {
         }
     }
 
-    public String guessCode() {
+    private String guessCode() {
         Random rand = new Random();
         int randomIndex = rand.nextInt(possibleCodes.size());
         String randomCode = possibleCodes.get(randomIndex);
@@ -82,7 +88,7 @@ public class GameComputer {
         return randomCode;
     }
 
-    public void removeCodes(String guess, int black, int white) {
+    private void removeCodes(String guess, int black, int white) {
         for (int i = 0; i < possibleCodes.size(); i++) {
             String code = possibleCodes.get(i);
 
