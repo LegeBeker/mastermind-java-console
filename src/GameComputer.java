@@ -89,15 +89,12 @@ public class GameComputer {
     }
 
     private void removeCodes(String guess, int black, int white) {
-        for (int i = 0; i < possibleCodes.size(); i++) {
-            String code = possibleCodes.get(i);
-
+        for (String code : possibleCodes) {
             int blackPins = MastermindGame.countMatchingChars(code, guess);
             int whitePins = MastermindGame.countCharsWrongPosition(code, guess);
 
             if (blackPins != black || whitePins != white) {
-                possibleCodes.remove(i);
-                i--;
+                possibleCodes.remove(code);
             }
         }
     }
