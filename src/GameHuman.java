@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Random;
 
 public class GameHuman {
 
@@ -9,7 +10,7 @@ public class GameHuman {
     private String code;
     private int turn;
     private HashMap<Integer, HashMap<String, List<Integer>>> guesses;
-    static boolean CHEATMODE = true;
+    static boolean CHEATMODE = false;
 
     public String getName() {
         return name;
@@ -37,9 +38,16 @@ public class GameHuman {
 
         code = new String();
 
-        // TODO: If game.getAllowDuplicates() is true, use every letter once per code
-        for (int i = 0; i < game.getCodeLength(); i++) {
-            code += (char) (65 + (int) (Math.random() * game.getAmountOfCharacters()));
+        Random rand = new Random();
+        if (game.getAllowDuplicates()) {
+            for (int i = 0; i < game.getCodeLength(); i++) {
+                code += (char) (64 + rand.nextInt(game.getAmountOfCharacters()));
+            }
+        } else {
+            for (int i = 0; i < game.getCodeLength(); i++) {
+                int randomIndex = rand.nextInt(game.getAmountOfCharacters());
+                code += game.getPossibleCharacters().get(randomIndex);
+            }
         }
     }
 
@@ -80,8 +88,8 @@ public class GameHuman {
                 break;
             }
 
-            int black = MastermindGame.countMatchingChars(code, guess, true);
-            int white = MastermindGame.countMatchingChars(code, guess, false);
+            int black = MastermindGame.countPins(code, guess, true);
+            int white = MastermindGame.countPins(code, guess, true);
 
             List<Integer> values = Arrays.asList(black, white);
             HashMap<String, List<Integer>> round = new HashMap<>();

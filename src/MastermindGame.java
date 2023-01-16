@@ -10,14 +10,14 @@ public class MastermindGame {
     private int amountOfCharacters;
     private boolean allowDuplicates;
 
-    private List<Character> possibleLetters;
+    private List<Character> possibleCharacters;
 
     public MastermindGame() {
         codeLength = 4;
         maxTurns = 9;
         amountOfCharacters = 6;
         allowDuplicates = true;
-        possibleLetters = new ArrayList<>();
+        possibleCharacters = new ArrayList<>();
     }
 
     public int getCodeLength() {
@@ -36,8 +36,8 @@ public class MastermindGame {
         return allowDuplicates;
     }
 
-    public List<Character> getPossibleLetters() {
-        return possibleLetters;
+    public List<Character> getPossibleCharacters() {
+        return possibleCharacters;
     }
 
     public void start() {
@@ -57,8 +57,8 @@ public class MastermindGame {
         GameHuman player = new GameHuman();
         GameComputer computer = new GameComputer();
 
-        for (char a = 'A'; a <= 65 + getAmountOfCharacters(); a++) {
-            possibleLetters.add(a);
+        for (char a = 'A'; a <= 64 + getAmountOfCharacters(); a++) {
+            possibleCharacters.add(a);
         }
 
         player.setName(MastermindIO.getHumanPlayerName());
@@ -129,11 +129,18 @@ public class MastermindGame {
         }
     }
 
-    public static int countMatchingChars(String s1, String s2, boolean samePosition) {
+    public static int countPins(String code, String guess, boolean black) {
         int count = 0;
-        for (int i = 0; i < s1.length(); i++) {
-            if (s1.charAt(i) == s2.charAt(i) && (samePosition || s2.contains(String.valueOf(s1.charAt(i))))) {
-                count++;
+
+        for (int i = 0; i < code.length(); i++) {
+            if (black) {
+                if (code.charAt(i) == guess.charAt(i)) {
+                    count++;
+                }
+            } else {
+                if (code.charAt(i) != guess.charAt(i) && code.contains(String.valueOf(guess.charAt(i)))) {
+                    count++;
+                }
             }
         }
         return count;

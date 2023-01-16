@@ -19,7 +19,9 @@ public class GameComputer {
         turn = 0;
         possibleCodes = new ArrayList<>();
 
-        possibleCodes = AddAllPossibleCodes(game.getPossibleLetters(), game.getCodeLength(), game.getAllowDuplicates());
+        possibleCodes = AddAllPossibleCodes(game.getPossibleCharacters(),
+                game.getCodeLength(),
+                game.getAllowDuplicates());
     }
 
     private List<String> AddAllPossibleCodes(List<Character> letters, int length, boolean allowDuplicates) {
@@ -61,6 +63,7 @@ public class GameComputer {
         setup(game);
 
         while (true) {
+            System.out.println(possibleCodes.size());
             turn++;
 
             if (possibleCodes.size() == 0) {
@@ -109,12 +112,15 @@ public class GameComputer {
     }
 
     private void removeCodes(String guess, int black, int white) {
-        for (String code : possibleCodes) {
-            int blackPins = MastermindGame.countMatchingChars(code, guess, true);
-            int whitePins = MastermindGame.countMatchingChars(code, guess, false);
+        for (int i = 0; i < possibleCodes.size(); i++) {
+            String code = possibleCodes.get(i);
+
+            int blackPins = MastermindGame.countPins(code, guess, true);
+            int whitePins = MastermindGame.countPins(code, guess, false);
 
             if (blackPins != black || whitePins != white) {
-                possibleCodes.remove(code);
+                possibleCodes.remove(i);
+                i--;
             }
         }
     }
