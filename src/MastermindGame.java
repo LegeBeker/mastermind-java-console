@@ -57,13 +57,21 @@ public class MastermindGame {
         GameHuman player = new GameHuman();
         GameComputer computer = new GameComputer();
 
+        player.setName(MastermindIO.getHumanPlayerName());
+
+        codeLength = MastermindIO.getCodeLengthInput();
+        maxTurns = MastermindIO.getMaxTurnsInput();
+        amountOfCharacters = MastermindIO.getAmountOfCharactersInput();
+
+        if (codeLength < amountOfCharacters) {
+            allowDuplicates = MastermindIO.getAllowDuplicatesInput();
+        }
+
         for (char a = 'A'; a <= 64 + getAmountOfCharacters(); a++) {
             possibleCharacters.add(a);
         }
 
-        player.setName(MastermindIO.getHumanPlayerName());
-
-        System.out.println("Eerst doen we een TOSS om wie mag beginnen.");
+        System.out.println("\u001B[0mEerst doen we een TOSS om wie mag beginnen.");
 
         player.setPreference(MastermindIO.getHeadOrTale());
 
@@ -106,7 +114,7 @@ public class MastermindGame {
 
     private static String doToss() {
         int head = 0;
-        int tale = 5;
+        int tale = 0;
         String toss = new String();
         for (int i = 0; i < 5; i++) {
             if (Math.random() < 0.5) {

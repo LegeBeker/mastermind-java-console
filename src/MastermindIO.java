@@ -29,6 +29,65 @@ public class MastermindIO {
         }
     }
 
+    public static int getCodeLengthInput() {
+        while (true) {
+            String input = System.console().readLine("\u001B[0mLengte van de geheime code : \u001B[32m");
+
+            if (!input.matches("[4-6]")) {
+                System.out.println(
+                        "\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 4 en 6");
+                continue;
+            }
+
+            return Integer.parseInt(input);
+        }
+    }
+
+    public static int getMaxTurnsInput() {
+        while (true) {
+            String input = System.console().readLine("\u001B[0mHet maximaal aantal raadpogingen : \u001B[32m");
+
+            if (!input.matches("20|[1-9]|1[0-9]")) {
+                System.out.println(
+                        "\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 9 en 20");
+                continue;
+            }
+
+            return Integer.parseInt(input);
+        }
+    }
+
+    public static int getAmountOfCharactersInput() {
+        while (true) {
+            String input = System.console().readLine("\u001B[0mAantal mogelijke letters : \u001B[32m");
+
+            if (!input.matches("[2-8]")) {
+                System.out.println(
+                        "\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 2 en 8");
+                continue;
+            }
+
+            return Integer.parseInt(input);
+        }
+    }
+
+    public static boolean getAllowDuplicatesInput() {
+        while (true) {
+            String input = System.console()
+                    .readLine("\u001B[0mLetters kunnen vaker gebruikt worden in een code? (y/n) : \u001B[32m");
+
+            input = input.toLowerCase();
+
+            if (input.equals("y")) {
+                return true;
+            } else if (input.equals("n")) {
+                return false;
+            }
+
+            System.out.println("\u001B[0mfout => '" + input + "' is geen geldige invoer!");
+        }
+    }
+
     public static String getHeadOrTale() {
         while (true) {
             String preference = System.console().readLine("Wil je kop of munt? : \u001B[32m");
