@@ -1,47 +1,76 @@
 import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Random;
 
 public class GameHuman {
 
-    public String name;
-    public String preference;
+    private String name;
+    private String preference;
     private String code;
-    static boolean CHEATMODE = true;
-
+    private int turn;
     private HashMap<Integer, HashMap<String, List<Integer>>> guesses;
-    public int turn;
+    static boolean CHEATMODE = false;
 
-    private void setup() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPreference() {
+        return preference;
+    }
+
+    public void setPreference(String preference) {
+        this.preference = preference;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    private void setup(MastermindGame game) {
         guesses = new HashMap<>();
         turn = 0;
 
         code = new String();
 
-        for (int i = 0; i < 4; i++) {
-            code += (char) (65 + (int) (Math.random() * 6));
+        Random rand = new Random();
+        if (game.getAllowDuplicates()) {
+            for (int i = 0; i < game.getCodeLength(); i++) {
+                code += (char) (64 + rand.nextInt(game.getAmountOfCharacters()));
+            }
+        } else {
+            for (int i = 0; i < game.getCodeLength(); i++) {
+                int randomIndex = rand.nextInt(game.getAmountOfCharacters());
+                code += game.getPossibleCharacters().get(randomIndex);
+            }
         }
     }
 
-    public void play() {
+    public void play(MastermindGame game) {
         System.out.println("\u001B[0m---------------------------------------------------------\r\n"
                 + "| " + name + " jij gaat nu raden."
                 + String.format("%0" + (35 - name.length()) + "d", 0).replace("0", " ")
                 + "|\r\n"
                 + "| Probeer de code zo snel mogelijk te raden.            |\r\n"
-                + "| Geef per keer 4 letters in en dan [ENTER]             |\r\n"
-                + "| Bij 9 keer een foute code ben je af.                  |\r\n"
+                + "| Geef per keer " + game.getCodeLength() + " letters in en dan [ENTER]             |\r\n"
+                + "| Bij " + game.getMaxTurns() + " keer een foute code ben je af.                  |\r\n"
                 + "| Succes!                                               |\r\n"
                 + "---------------------------------------------------------");
         MastermindIO.getEnterToContinue();
 
-        setup();
+        setup(game);
 
         while (true) {
             turn++;
 
-            if (turn > 9) {
-                System.out.println("\u001B[0mJe hebt 9 keer een foute code geraden. Je bent af!");
+            if (turn > game.getMaxTurns()) {
+                System.out.println(
+                        "\u001B[0mJe hebt " + game.getMaxTurns() + " keer een foute code geraden. Je bent af!");
                 break;
             }
 
@@ -51,7 +80,7 @@ public class GameHuman {
 
             MastermindIO.printGameBoard(guesses);
 
-            String guess = MastermindIO.getPlayerGuess();
+            String guess = MastermindIO.getPlayerGuess(game);
 
             if (guess.equals(code)) {
                 System.out.println("\u001B[0m" + name + " je hebt de code geraden!");
@@ -59,8 +88,8 @@ public class GameHuman {
                 break;
             }
 
-            int black = MastermindGame.countMatchingChars(code, guess);
-            int white = MastermindGame.countCharsWrongPosition(code, guess);
+            int black = MastermindGame.countPins(code, guess, true);
+            int white = MastermindGame.countPins(code, guess, true);
 
             List<Integer> values = Arrays.asList(black, white);
             HashMap<String, List<Integer>> round = new HashMap<>();
