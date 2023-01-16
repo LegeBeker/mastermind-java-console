@@ -43,14 +43,14 @@ public class MastermindIO {
         }
     }
 
-    public static String getPlayerGuess() {
+    public static String getPlayerGuess(MastermindGame game) {
         while (true) {
             String guess = System.console().readLine("raad de code : \u001B[32m");
 
             guess = guess.toUpperCase();
 
-            if (guess.length() != 4) {
-                System.out.println("\u001B[0mfout => de code bestaat uit 4 letters!");
+            if (guess.length() != game.getCodeLength()) {
+                System.out.println("\u001B[0mfout => de code bestaat uit " + game.getCodeLength() + " letters!");
                 continue;
             }
 
@@ -65,16 +65,19 @@ public class MastermindIO {
                 continue;
             }
 
+            // TODO: If game.getAllowDuplicates() is true, use every letter once per code
+
             return guess;
         }
     }
 
-    public static int getPlayerBlackPins() {
+    public static int getPlayerBlackPins(MastermindGame game) {
         while (true) {
             String blackPins = System.console().readLine("\u001B[0mGeef het aantal zwarte pins : \u001B[32m");
 
-            if (!blackPins.matches("[0-4]")) {
-                System.out.println("\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 0 en 4");
+            if (!blackPins.matches("[0-" + game.getCodeLength() + "]")) {
+                System.out.println(
+                        "\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 0 en " + game.getCodeLength());
                 continue;
             }
 
@@ -82,17 +85,18 @@ public class MastermindIO {
         }
     }
 
-    public static int getPlayerWhitePins(int blackPins) {
+    public static int getPlayerWhitePins(MastermindGame game, int blackPins) {
         while (true) {
             String whitePins = System.console().readLine("\u001B[0mGeef het aantal witte pins : \u001B[32m");
 
-            if (!whitePins.matches("[0-4]")) {
-                System.out.println("\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 0 en 4");
+            if (!whitePins.matches("[0-" + game.getCodeLength() + "]")) {
+                System.out.println(
+                        "\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 0 en " + game.getCodeLength());
                 continue;
             }
 
-            if ((Integer.parseInt(whitePins) + blackPins) > 4) {
-                System.out.println("\u001B[0mfout => som van pins moet tussen 0 en 4 zijn!");
+            if ((Integer.parseInt(whitePins) + blackPins) > game.getCodeLength()) {
+                System.out.println("\u001B[0mfout => som van pins moet tussen 0 en " + game.getCodeLength() + " zijn!");
                 continue;
             }
 
