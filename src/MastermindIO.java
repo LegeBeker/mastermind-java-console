@@ -65,7 +65,15 @@ public class MastermindIO {
                 continue;
             }
 
-            // TODO: If game.getAllowDuplicates() is true, use every letter once per code
+            if (!game.getAllowDuplicates()) {
+                for (int i = 0; i < guess.length(); i++) {
+                    String letter = guess.substring(i, i + 1);
+                    if (guess.indexOf(letter) != guess.lastIndexOf(letter)) {
+                        System.out.println("\u001B[0mfout => '" + letter + "' komt meerdere keren voor in de code!");
+                        continue;
+                    }
+                }
+            }
 
             return guess;
         }

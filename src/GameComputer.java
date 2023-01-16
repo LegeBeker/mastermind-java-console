@@ -17,39 +17,31 @@ public class GameComputer {
     private void setup(MastermindGame game) {
         guesses = new HashMap<>();
         turn = 0;
-
         possibleCodes = new ArrayList<>();
 
-        // TODO: Make dynamic using game.getCodeLength()
-        // TODO: If game.getAllowDuplicates() is true, use every letter once per code
-
-        for (char a = 'A'; a <= 65 + game.getAmountOfCharacters(); a++) {
-            for (char b = 'A'; b <= 65 + game.getAmountOfCharacters(); b++) {
-                for (char c = 'A'; c <= 65 + game.getAmountOfCharacters(); c++) {
-                    for (char d = 'A'; d <= 65 + game.getAmountOfCharacters(); d++) {
-                        possibleCodes.add("" + a + b + c + d);
-                    }
-                }
-            }
-        }
-
-        // the above in a seperate function
-        for (char a = 'A'; a <= 65 + game.getAmountOfCharacters(); a++) {
-            possibleCodes = addLetter(possibleCodes, a, game.getCodeLength());
-
-        }
+        possibleCodes = AddAllPossibleCodes(game.getPossibleLetters(), game.getCodeLength(), game.getAllowDuplicates());
     }
 
-    private void addLetter(List<String> codes, char letter, int length) {
+    private List<String> AddAllPossibleCodes(List<Character> letters, int length, boolean allowDuplicates) {
+        List<String> codes = new ArrayList<>();
+
         if (length == 1) {
-            codes.add("" + letter);
+            for (char letter : letters) {
+                codes.add(String.valueOf(letter));
+            }
         } else {
-            for (String code : codes) {
-                if (code.length() == length - 1) {
-                    codes.add(code + letter);
+            for (char letter : letters) {
+                List<Character> newLetters = new ArrayList<>(letters);
+                if (!allowDuplicates) {
+                    newLetters.remove(Character.valueOf(letter));
+                }
+                for (String code : AddAllPossibleCodes(newLetters, length - 1, allowDuplicates)) {
+                    codes.add(letter + code);
                 }
             }
         }
+
+        return codes;
     }
 
     public void play(MastermindGame game) {

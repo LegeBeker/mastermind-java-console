@@ -1,18 +1,23 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class MastermindGame {
 
     private String tossResult;
 
     private int codeLength;
-    public int maxTurns;
-    public int amountOfCharacters;
-    public boolean allowDuplicates;
+    private int maxTurns;
+    private int amountOfCharacters;
+    private boolean allowDuplicates;
+
+    private List<Character> possibleLetters;
 
     public MastermindGame() {
         codeLength = 4;
         maxTurns = 9;
         amountOfCharacters = 6;
         allowDuplicates = true;
+        possibleLetters = new ArrayList<>();
     }
 
     public int getCodeLength() {
@@ -31,6 +36,10 @@ public class MastermindGame {
         return allowDuplicates;
     }
 
+    public List<Character> getPossibleLetters() {
+        return possibleLetters;
+    }
+
     public void start() {
         System.out.println("=========================================================\r\n"
                 + "| Welkom bij Mastermind!                                |\r\n"
@@ -47,6 +56,10 @@ public class MastermindGame {
 
         GameHuman player = new GameHuman();
         GameComputer computer = new GameComputer();
+
+        for (char a = 'A'; a <= 65 + getAmountOfCharacters(); a++) {
+            possibleLetters.add(a);
+        }
 
         player.setName(MastermindIO.getHumanPlayerName());
 
