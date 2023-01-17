@@ -89,7 +89,7 @@ public class GameHuman {
             }
 
             int black = MastermindGame.countPins(code, guess, true);
-            int white = MastermindGame.countPins(code, guess, true);
+            int white = MastermindGame.countPins(code, guess, false);
 
             List<Integer> values = Arrays.asList(black, white);
             HashMap<String, List<Integer>> round = new HashMap<>();

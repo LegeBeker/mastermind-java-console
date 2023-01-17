@@ -24,28 +24,6 @@ public class GameComputer {
                 game.getAllowDuplicates());
     }
 
-    private List<String> AddAllPossibleCodes(List<Character> letters, int length, boolean allowDuplicates) {
-        List<String> codes = new ArrayList<>();
-
-        if (length == 1) {
-            for (char letter : letters) {
-                codes.add(String.valueOf(letter));
-            }
-        } else {
-            for (char letter : letters) {
-                List<Character> newLetters = new ArrayList<>(letters);
-                if (!allowDuplicates) {
-                    newLetters.remove(Character.valueOf(letter));
-                }
-                for (String code : AddAllPossibleCodes(newLetters, length - 1, allowDuplicates)) {
-                    codes.add(letter + code);
-                }
-            }
-        }
-
-        return codes;
-    }
-
     public void play(MastermindGame game) {
         System.out.println("\u001B[0m---------------------------------------------------------\r\n"
                 + "| de COMPUTER gaat nu raden.                            |\r\n"
@@ -63,7 +41,6 @@ public class GameComputer {
         setup(game);
 
         while (true) {
-            System.out.println(possibleCodes.size());
             turn++;
 
             if (possibleCodes.size() == 0) {
@@ -123,5 +100,27 @@ public class GameComputer {
                 i--;
             }
         }
+    }
+
+    private static List<String> AddAllPossibleCodes(List<Character> letters, int length, boolean allowDuplicates) {
+        List<String> codes = new ArrayList<>();
+
+        if (length == 1) {
+            for (char letter : letters) {
+                codes.add(String.valueOf(letter));
+            }
+        } else {
+            for (char letter : letters) {
+                List<Character> newLetters = new ArrayList<>(letters);
+                if (!allowDuplicates) {
+                    newLetters.remove(Character.valueOf(letter));
+                }
+                for (String code : AddAllPossibleCodes(newLetters, length - 1, allowDuplicates)) {
+                    codes.add(letter + code);
+                }
+            }
+        }
+
+        return codes;
     }
 }

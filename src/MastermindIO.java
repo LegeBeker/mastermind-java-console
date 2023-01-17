@@ -33,13 +33,11 @@ public class MastermindIO {
         while (true) {
             String input = System.console().readLine("\u001B[0mLengte van de geheime code : \u001B[32m");
 
-            if (!input.matches("[4-6]")) {
-                System.out.println(
-                        "\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 4 en 6");
-                continue;
+            if (input.matches("[4-6]")) {
+                return Integer.parseInt(input);
             }
 
-            return Integer.parseInt(input);
+            System.out.println("\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 4 en 6");
         }
     }
 
@@ -47,13 +45,11 @@ public class MastermindIO {
         while (true) {
             String input = System.console().readLine("\u001B[0mHet maximaal aantal raadpogingen : \u001B[32m");
 
-            if (!input.matches("20|[1-9]|1[0-9]")) {
-                System.out.println(
-                        "\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 9 en 20");
-                continue;
+            if (input.matches("20|9|1[0-9]")) {
+                return Integer.parseInt(input);
             }
 
-            return Integer.parseInt(input);
+            System.out.println("\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 9 en 20");
         }
     }
 
@@ -61,13 +57,11 @@ public class MastermindIO {
         while (true) {
             String input = System.console().readLine("\u001B[0mAantal mogelijke letters : \u001B[32m");
 
-            if (!input.matches("[2-8]")) {
-                System.out.println(
-                        "\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 2 en 8");
-                continue;
+            if (input.matches("[2-8]")) {
+                return Integer.parseInt(input);
             }
 
-            return Integer.parseInt(input);
+            System.out.println("\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 2 en 8");
         }
     }
 
@@ -94,11 +88,11 @@ public class MastermindIO {
 
             preference = preference.toLowerCase();
 
-            if (!preference.equals("kop") && preference.equals("munt")) {
-                System.out.println("\u001B[0mfout => '" + preference + "' is geen geldige invoer!");
-                continue;
+            if (preference.equals("kop") || preference.equals("munt")) {
+                return preference;
             }
-            return preference;
+
+            System.out.println("\u001B[0mfout => '" + preference + "' is geen geldige invoer!");
         }
     }
 
@@ -113,8 +107,11 @@ public class MastermindIO {
                 continue;
             }
 
-            if (!guess.matches("[A-F]+")) {
-                String nonLetters = guess.replaceAll("[A-F]", "");
+            List<Character> possibleCharacters = game.getPossibleCharacters();
+            Character lastCharacter = possibleCharacters.get(possibleCharacters.size() - 1);
+
+            if (!guess.matches("[A-" + lastCharacter + "]+")) {
+                String nonLetters = guess.replaceAll("[A-" + lastCharacter + "]", "");
 
                 if (nonLetters.length() > 1) {
                     System.out.println("\u001B[0mfout => '" + nonLetters + "' zijn geen geldige letters!");
@@ -142,13 +139,12 @@ public class MastermindIO {
         while (true) {
             String blackPins = System.console().readLine("\u001B[0mGeef het aantal zwarte pins : \u001B[32m");
 
-            if (!blackPins.matches("[0-" + game.getCodeLength() + "]")) {
-                System.out.println(
-                        "\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 0 en " + game.getCodeLength());
-                continue;
+            if (blackPins.matches("[0-" + game.getCodeLength() + "]")) {
+                return Integer.parseInt(blackPins);
             }
 
-            return Integer.parseInt(blackPins);
+            System.out
+                    .println("\u001B[0mfout => invoer is ongeldig! Geef een getal tussen 0 en " + game.getCodeLength());
         }
     }
 
@@ -176,8 +172,6 @@ public class MastermindIO {
             String enter = System.console().readLine("\u001B[0m[ENTER] om door te gaan.");
             if (enter.equals("")) {
                 break;
-            } else {
-                continue;
             }
         }
     }
