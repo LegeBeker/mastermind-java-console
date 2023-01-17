@@ -20,8 +20,7 @@ public class GameComputer {
         possibleCodes = new ArrayList<>();
 
         possibleCodes = AddAllPossibleCodes(game.getPossibleCharacters(),
-                game.getCodeLength(),
-                game.getAllowDuplicates());
+                game.getCodeLength(), game.getAllowDuplicates());
     }
 
     public void play(MastermindGame game) {
