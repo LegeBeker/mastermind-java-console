@@ -1,18 +1,21 @@
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 public class MastermindIO {
     public static String getHumanPlayerName() {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String playerName = System.console().readLine("Wat is je naam? : \u001B[32m");
+            System.out.print("Wat is je naam? : \u001B[32m");
+            String input = scanner.nextLine();
 
-            if (playerName.length() < 2) {
+            if (input.length() < 2) {
                 System.out.println("\u001B[0mfout => een naam moet minstens 2 letters zijn!");
                 continue;
             }
 
-            if (!playerName.matches("[a-zA-Z]+")) {
-                String nonLetters = playerName.replaceAll("[a-zA-Z]", "");
+            if (!input.matches("[a-zA-Z]+")) {
+                String nonLetters = input.replaceAll("[a-zA-Z]", "");
 
                 if (nonLetters.length() > 1) {
                     System.out.println("\u001B[0mfout => '" + nonLetters + "' zijn geen letters!");
@@ -22,18 +25,22 @@ public class MastermindIO {
                 continue;
             }
 
-            playerName = playerName.substring(0, 1).toUpperCase() + playerName.substring(1).toLowerCase();
+            String playerName = input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
 
             System.out.println("\u001B[0mWelkom " + playerName + "!");
+            scanner.close();
             return playerName;
         }
     }
 
     public static int getCodeLengthInput() {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String input = System.console().readLine("\u001B[0mLengte van de geheime code : \u001B[32m");
+            System.out.print("\u001B[0mLengte van de geheime code : \u001B[32m");
+            String input = scanner.nextLine();
 
             if (input.matches("[4-6]")) {
+                scanner.close();
                 return Integer.parseInt(input);
             }
 
@@ -42,10 +49,13 @@ public class MastermindIO {
     }
 
     public static int getMaxTurnsInput() {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String input = System.console().readLine("\u001B[0mHet maximaal aantal raadpogingen : \u001B[32m");
+            System.out.print("\u001B[0mHet maximaal aantal raadpogingen : \u001B[32m");
+            String input = scanner.nextLine();
 
             if (input.matches("20|9|1[0-9]")) {
+                scanner.close();
                 return Integer.parseInt(input);
             }
 
@@ -54,10 +64,13 @@ public class MastermindIO {
     }
 
     public static int getAmountOfCharactersInput() {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String input = System.console().readLine("\u001B[0mAantal mogelijke letters : \u001B[32m");
+            System.out.print("\u001B[0mAantal mogelijke letters : \u001B[32m");
+            String input = scanner.nextLine();
 
             if (input.matches("[2-8]")) {
+                scanner.close();
                 return Integer.parseInt(input);
             }
 
@@ -66,43 +79,48 @@ public class MastermindIO {
     }
 
     public static boolean getAllowDuplicatesInput() {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String input = System.console()
-                    .readLine("\u001B[0mLetters kunnen vaker gebruikt worden in een code? (y/n) : \u001B[32m");
+            System.out.print("\u001B[0mLetters kunnen vaker gebruikt worden in een code? (y/n) : \u001B[32");
+            String input = scanner.nextLine();
 
             input = input.toLowerCase();
 
-            if (input.equals("y")) {
-                return true;
-            } else if (input.equals("n")) {
-                return false;
+            if (input.equals("y") || input.equals("n")) {
+                scanner.close();
+                return input.equals("y") ? true : false;
             }
 
             System.out.println("\u001B[0mfout => '" + input + "' is geen geldige invoer!");
         }
     }
 
-    public static String getHeadOrTale() {
+    public static String getHeadsOrTails() {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String preference = System.console().readLine("Wil je kop of munt? : \u001B[32m");
+            System.out.print("\u001B[0mWil je kop of munt? : \u001B[32m");
+            String input = scanner.nextLine();
 
-            preference = preference.toLowerCase();
+            input = input.toLowerCase();
 
-            if (preference.equals("kop") || preference.equals("munt")) {
-                return preference;
+            if (input.equals("kop") || input.equals("munt")) {
+                scanner.close();
+                return input;
             }
 
-            System.out.println("\u001B[0mfout => '" + preference + "' is geen geldige invoer!");
+            System.out.println("\u001B[0mfout => '" + input + "' is geen geldige invoer!");
         }
     }
 
     public static String getPlayerGuess(MastermindGame game) {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String guess = System.console().readLine("raad de code : \u001B[32m");
+            System.out.print("\u001B[0mraad de code : \u001B[32m");
+            String input = scanner.nextLine();
 
-            guess = guess.toUpperCase();
+            input = input.toUpperCase();
 
-            if (guess.length() != game.getCodeLength()) {
+            if (input.length() != game.getCodeLength()) {
                 System.out.println("\u001B[0mfout => de code bestaat uit " + game.getCodeLength() + " letters!");
                 continue;
             }
@@ -110,8 +128,8 @@ public class MastermindIO {
             List<Character> possibleCharacters = game.getPossibleCharacters();
             Character lastCharacter = possibleCharacters.get(possibleCharacters.size() - 1);
 
-            if (!guess.matches("[A-" + lastCharacter + "]+")) {
-                String nonLetters = guess.replaceAll("[A-" + lastCharacter + "]", "");
+            if (!input.matches("[A-" + lastCharacter + "]+")) {
+                String nonLetters = input.replaceAll("[A-" + lastCharacter + "]", "");
 
                 if (nonLetters.length() > 1) {
                     System.out.println("\u001B[0mfout => '" + nonLetters + "' zijn geen geldige letters!");
@@ -123,9 +141,9 @@ public class MastermindIO {
 
             if (!game.getAllowDuplicates()) {
                 boolean duplicate = false;
-                for (int i = 0; i < guess.length(); i++) {
-                    String letter = guess.substring(i, i + 1);
-                    if (guess.indexOf(letter) != guess.lastIndexOf(letter)) {
+                for (int i = 0; i < input.length(); i++) {
+                    String letter = input.substring(i, i + 1);
+                    if (input.indexOf(letter) != input.lastIndexOf(letter)) {
                         System.out.println("\u001B[0mfout => '" + letter + "' komt meerdere keren voor in de code!");
                         duplicate = true;
                         break;
@@ -136,15 +154,19 @@ public class MastermindIO {
                 }
             }
 
-            return guess;
+            scanner.close();
+            return input;
         }
     }
 
     public static int getPlayerBlackPins(MastermindGame game) {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String blackPins = System.console().readLine("\u001B[0mGeef het aantal zwarte pins : \u001B[32m");
+            System.out.print("\u001B[0mGeef het aantal zwarte pins : \u001B[32m");
+            String blackPins = scanner.nextLine();
 
             if (blackPins.matches("[0-" + game.getCodeLength() + "]")) {
+                scanner.close();
                 return Integer.parseInt(blackPins);
             }
 
@@ -154,8 +176,10 @@ public class MastermindIO {
     }
 
     public static int getPlayerWhitePins(MastermindGame game, int blackPins) {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String whitePins = System.console().readLine("\u001B[0mGeef het aantal witte pins : \u001B[32m");
+            System.out.print("\u001B[0mGeef het aantal witte pins : \u001B[32m");
+            String whitePins = scanner.nextLine();
 
             if (!whitePins.matches("[0-" + game.getCodeLength() + "]")) {
                 System.out.println(
@@ -168,17 +192,22 @@ public class MastermindIO {
                 continue;
             }
 
+            scanner.close();
             return Integer.parseInt(whitePins);
         }
     }
 
     public static void getEnterToContinue() {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String enter = System.console().readLine("\u001B[0m[ENTER] om door te gaan.");
-            if (enter.equals("")) {
+            System.out.print("\u001B[0m[ENTER] om door te gaan.");
+            String input = scanner.nextLine();
+
+            if (input.equals("")) {
                 break;
             }
         }
+        scanner.close();
     }
 
     public static void printGameBoard(HashMap<Integer, HashMap<String, List<Integer>>> guesses) {
