@@ -24,7 +24,7 @@ public class GameComputer {
     }
 
     public void play(MastermindGame game) {
-        System.out.println("\u001B[0m---------------------------------------------------------\r\n"
+        System.out.println("---------------------------------------------------------\r\n"
                 + "| de COMPUTER gaat nu raden.                            |\r\n"
                 + "| Bedenk een code die uit " + game.getCodeLength() + " letters bestaat.            |\r\n"
                 + "| Mogelijke letters zijn: " +
@@ -44,12 +44,12 @@ public class GameComputer {
 
             if (possibleCodes.size() == 0) {
                 System.out.println(
-                        "\u001B[0m  X X X X X X X X X X X X\r\n De computer geeft het op! \r\n Waarschijnlijk heb je ergens een fout getal ingevoerd. \r\n  X X X X X X X X X X X X");
+                        "  X X X X X X X X X X X X\r\n De computer geeft het op! \r\n Waarschijnlijk heb je ergens een fout getal ingevoerd. \r\n  X X X X X X X X X X X X");
                 break;
             }
 
             if (turn > game.getMaxTurns()) {
-                System.out.println("\u001B[0mDe COMPUTER hebt " + game.getMaxTurns()
+                System.out.println("De COMPUTER hebt " + game.getMaxTurns()
                         + " keer een foute code geraden. De COMPUTER is af!");
                 break;
             }
@@ -63,7 +63,7 @@ public class GameComputer {
             int black = MastermindIO.getPlayerBlackPins(game);
 
             if (black == game.getCodeLength()) {
-                System.out.println("\u001B[0mgeraden");
+                System.out.println("geraden");
                 System.out.println("de score van de computer is: " + turn);
                 break;
             }

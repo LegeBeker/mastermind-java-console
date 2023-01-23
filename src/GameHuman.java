@@ -10,7 +10,7 @@ public class GameHuman {
     private String code;
     private int turn;
     private HashMap<Integer, HashMap<String, List<Integer>>> guesses;
-    static boolean CHEATMODE = false;
+    private static boolean CHEATMODE = false;
 
     public String getName() {
         return name;
@@ -55,7 +55,7 @@ public class GameHuman {
     }
 
     public void play(MastermindGame game) {
-        System.out.println("\u001B[0m---------------------------------------------------------\r\n"
+        System.out.println("---------------------------------------------------------\r\n"
                 + "| " + name + " jij gaat nu raden."
                 + String.format("%0" + (35 - name.length()) + "d", 0).replace("0", " ")
                 + "|\r\n"
@@ -73,12 +73,12 @@ public class GameHuman {
 
             if (turn > game.getMaxTurns()) {
                 System.out.println(
-                        "\u001B[0mJe hebt " + game.getMaxTurns() + " keer een foute code geraden. Je bent af!");
+                        "Je hebt " + game.getMaxTurns() + " keer een foute code geraden. Je bent af!");
                 break;
             }
 
             if (CHEATMODE) {
-                System.out.println("\u001B[0m>>> CHEAT [" + code + "] <<<");
+                System.out.println(">>> CHEAT [" + code + "] <<<");
             }
 
             MastermindIO.printGameBoard(guesses);
@@ -86,7 +86,7 @@ public class GameHuman {
             String guess = MastermindIO.getPlayerGuess(game);
 
             if (guess.equals(code)) {
-                System.out.println("\u001B[0m" + name + " je hebt de code geraden!");
+                System.out.println("" + name + " je hebt de code geraden!");
                 System.out.println("jouw score is: " + turn);
                 break;
             }

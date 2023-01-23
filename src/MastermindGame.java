@@ -71,7 +71,7 @@ public class MastermindGame {
             possibleCharacters.add(a);
         }
 
-        System.out.println("\u001B[0mEerst doen we een TOSS om wie mag beginnen.");
+        System.out.println("Eerst doen we een TOSS om wie mag beginnen.");
 
         player.setPreference(MastermindIO.getHeadsOrTails());
 
@@ -80,17 +80,17 @@ public class MastermindGame {
 
     private void result(GameHuman player, GameComputer computer) {
         System.out
-                .println("\u001B[0mEindscore: " + player.getName() + ": "
+                .println("Eindscore: " + player.getName() + ": "
                         + ((player.getTurn() > this.getMaxTurns()) ? "[NIET]" : player.getTurn())
                         + " - COMPUTER: "
                         + ((computer.getTurn() > this.getMaxTurns()) ? "[NIET]" : computer.getTurn()));
 
         if (player.getTurn() < computer.getTurn()) {
-            System.out.println("\u001B[0mBravo " + player.getName() + " je hebt de computer verslagen!");
+            System.out.println("Bravo " + player.getName() + " je hebt de computer verslagen!");
         } else if (player.getTurn() > computer.getTurn()) {
-            System.out.println("\u001B[0mHelaas " + player.getName() + " je hebt verloren!");
+            System.out.println("Helaas " + player.getName() + " je hebt verloren!");
         } else {
-            System.out.println("\u001B[0mHet is gelijk spel, we spelen nog een ronde!");
+            System.out.println("Het is gelijk spel, we spelen nog een ronde!");
 
             startMatch(player, computer);
         }
@@ -126,13 +126,13 @@ public class MastermindGame {
             }
         }
 
-        System.out.println("\u001B[0mflipping: " + toss.substring(0, toss.length() - 1));
+        System.out.println("flipping: " + toss.substring(0, toss.length() - 1));
 
         if (heads > tails) {
-            System.out.println("\u001B[0mhet is geworden: kop (" + heads + " keer gegooid)");
+            System.out.println("het is geworden: kop (" + heads + " keer gegooid)");
             return "kop";
         } else {
-            System.out.println("\u001B[0mhet is geworden: munt (" + tails + " keer gegooid)");
+            System.out.println("het is geworden: munt (" + tails + " keer gegooid)");
             return "munt";
         }
     }
