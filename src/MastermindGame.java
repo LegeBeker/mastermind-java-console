@@ -73,7 +73,7 @@ public class MastermindGame {
 
         System.out.println("\u001B[0mEerst doen we een TOSS om wie mag beginnen.");
 
-        player.setPreference(MastermindIO.getHeadOrTale());
+        player.setPreference(MastermindIO.getHeadsOrTails());
 
         startMatch(player, computer);
     }
@@ -113,26 +113,26 @@ public class MastermindGame {
     }
 
     private static String doToss() {
-        int head = 0;
-        int tale = 0;
+        int heads = 0;
+        int tails = 0;
         String toss = new String();
         for (int i = 0; i < 5; i++) {
             if (Math.random() < 0.5) {
-                head++;
+                heads++;
                 toss += "kop|";
             } else {
-                tale++;
+                tails++;
                 toss += "munt|";
             }
         }
 
         System.out.println("\u001B[0mflipping: " + toss.substring(0, toss.length() - 1));
 
-        if (head > tale) {
-            System.out.println("\u001B[0mhet is geworden: kop (" + head + " keer gegooid)");
+        if (heads > tails) {
+            System.out.println("\u001B[0mhet is geworden: kop (" + heads + " keer gegooid)");
             return "kop";
         } else {
-            System.out.println("\u001B[0mhet is geworden: munt (" + tale + " keer gegooid)");
+            System.out.println("\u001B[0mhet is geworden: munt (" + tails + " keer gegooid)");
             return "munt";
         }
     }
