@@ -44,9 +44,12 @@ public class GameHuman {
                 code += (char) (64 + rand.nextInt(game.getAmountOfCharacters()));
             }
         } else {
+            List<Character> possibleCharacters = game.getPossibleCharacters();
             for (int i = 0; i < game.getCodeLength(); i++) {
-                int randomIndex = rand.nextInt(game.getAmountOfCharacters());
-                code += game.getPossibleCharacters().get(randomIndex);
+                int randomIndex = rand.nextInt(possibleCharacters.size() - 1);
+
+                code += possibleCharacters.get(randomIndex);
+                possibleCharacters.remove(randomIndex);
             }
         }
     }
